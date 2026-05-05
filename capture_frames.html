@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body>
+<canvas id="c" style="display:none"></canvas>
+<script>
+async function captureFrame(src, filename) {
+  return new Promise((resolve, reject) => {
+    const video = document.createElement('video');
+    video.src = src;
+    video.crossOrigin = 'anonymous';
+    video.muted = true;
+    video.currentTime = 0.1;
+    video.addEventListener('loadeddata', () => {
+      video.currentTime = 0.1;
+    });
+    video.addEventListener('seeked', () => {
+      const canvas = document.getElementById('c');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0);
+      canvas.toBlob(blob => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = filename;
+        a.click();
+        resolve();
+      }, 'image/jpeg', 0.92);
+    });
+    video.load();
+  });
+}
+
+(async () => {
+  await captureFrame('uploads/VIDEO-2026-05-04-09-00-19.mp4', 'poster1.jpg');
+  await new Promise(r => setTimeout(r, 1000));
+  await captureFrame('uploads/VIDEO-2026-05-04-09-00-48.mp4', 'poster2.jpg');
+  document.body.innerHTML += '<p style="font-family:sans-serif;color:green">✅ Frames capturados! Salve os arquivos como uploads/poster1.jpg e uploads/poster2.jpg</p>';
+})();
+</script>
+</body>
+</html>
