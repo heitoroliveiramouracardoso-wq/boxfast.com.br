@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amber: oklch(0.55 0.13 58);
+    --amber-light: oklch(0.68 0.15 58);
+    --orange: #d4622a;
+    --orange-bright: oklch(0.70 0.20 48);
+    --black: #0e0c09;
+    --ink: #1a1612;
+    --soil: #2a2118;
+    --bark: #3d2f1e;
+    --straw: #f5ede0;
+    --cream: #faf5ee;
+    --warm-white: #fff9f2;
+    --steel: #8a7c6e;
+    --text-muted: #6b5e50;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Barlow', sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; }
+  @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.6); } }
+  @keyframes badge-shimmer { 0% { background-position: 200% center; } 100% { background-position: -200% center; } }
+  @keyframes glow-pulse { 0%,100% { box-shadow: 0 4px 20px rgba(220,100,30,0.4); } 50% { box-shadow: 0 4px 40px rgba(220,100,30,0.75); } }
+  @keyframes btn-shine { 0% { left: -100%; } 60%,100% { left: 150%; } }
+  @keyframes fill-anim { from { width: 0; } to { width: 23%; } }
+  @keyframes wpp-bounce { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-6px) scale(1.04); } }
+  @keyframes label-fade { from { opacity: 0.7; } to { opacity: 1; } }
+</style>
+</helmet>
+
+<div id="sf-root">
+
+<!-- URGENCY BAR -->
+<div id="urgency-bar" style="background:var(--orange); color:#fff; text-align:center; padding:10px 16px; font-size:0.85rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:center; gap:10px;">
+  <span style="width:8px; height:8px; background:#fff; border-radius:50%; animation:pulse 1.2s ease-in-out infinite; flex-shrink:0;"></span>
+  <span>⚠️ ESTOQUE LIMITADO — Restam apenas <strong id="stock-num">23</strong> pares neste lote. Garanta o seu agora!</span>
+</div>
+
+<!-- NAVBAR -->
+<nav style="background:var(--black); padding:16px 5%; display:flex; align-items:center; justify-content:space-between;">
+  <div style="display:flex; align-items:center; gap:14px;">
+    <img src="assets/boxfast-logo.png" alt="BoxFast" style="height:42px; display:block;">
+    <div style="width:1px; height:32px; background:rgba(255,255,255,0.15);"></div>
+    <div>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:2rem; color:var(--amber-light); letter-spacing:0.08em;">Soft<span style="color:#fff;">flex</span></div>
+      <div style="font-size:0.62rem; color:var(--steel); letter-spacing:0.14em; text-transform:uppercase; margin-top:-2px;">por BoxFast</div>
+    </div>
+  </div>
+  <a href="#comprar" style="background:var(--orange); color:#fff; border:none; padding:10px 22px; font-family:'Barlow',sans-serif; font-weight:700; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.08em; cursor:pointer; text-decoration:none; display:inline-block; transition:background 0.2s, transform 0.15s; clip-path:polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);" style-hover="background:var(--orange-bright); transform:translateY(-1px);">Comprar agora</a>
+</nav>
+
+<template id="__bundler_thumbnail" data-bg-color="#0e0c09">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0e0c09"></rect>
+    <text x="600" y="380" font-family="Arial, sans-serif" font-size="150" font-weight="900" fill="#e8c87a" text-anchor="middle" letter-spacing="6">SOFTFLEX</text>
+    <text x="600" y="470" font-family="Arial, sans-serif" font-size="40" font-weight="700" fill="#d4622a" text-anchor="middle" letter-spacing="10">BOTINAS DE TRABALHO</text>
+    <rect x="500" y="520" width="200" height="8" fill="#d4622a"></rect>
+  </svg>
+</template>
+
+<!-- HERO -->
+<section style="background:var(--ink); min-height:92vh; display:grid; grid-template-columns:1fr 1fr; align-items:center; position:relative; overflow:hidden;">
+  <div style="position:absolute; inset:0; background-image:url('assets/hero-bg.jpeg'); background-size:cover; background-position:center 30%; z-index:0;"></div>
+  <div style="position:absolute; inset:0; z-index:1; background:linear-gradient(105deg, rgba(14,12,9,0.88) 0%, rgba(14,12,9,0.75) 45%, rgba(14,12,9,0.35) 70%, rgba(14,12,9,0.15) 100%);"></div>
+
+  <div style="padding:80px 5% 80px 8%; position:relative; z-index:2;">
+    <div style="display:inline-flex; align-items:center; gap:8px; background:linear-gradient(90deg, var(--amber), oklch(0.72 0.16 65), var(--amber)); background-size:200% auto; animation:badge-shimmer 3s linear infinite; color:#fff; font-size:0.72rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; padding:6px 14px; margin-bottom:28px; clip-path:polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 0l1.5 4.5H12L8.25 7.3l1.5 4.5L6 9l-3.75 2.8 1.5-4.5L0 4.5h4.5z"></path></svg>
+      Couro Legítimo · Marca Softflex · CA Aprovado
+    </div>
+
+    <h1 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(3.2rem, 7vw, 6rem); color:#fff; line-height:0.95; letter-spacing:0.02em; margin:0 0 12px;">
+      A BOTINA QUE
+      <span style="color:var(--amber-light); display:block;">NÃO TE DEIXA</span>
+      NA MÃO
+    </h1>
+
+    <p style="font-size:clamp(1rem, 1.8vw, 1.2rem); color:#c4b49e; line-height:1.55; max-width:460px; margin:0 0 36px; font-weight:400;">
+      Desenvolvida para o homem que trabalha de verdade — no campo, na obra, na lama.
+      <strong style="color:var(--amber-light); font-weight:700;">Conforto profissional, proteção de norma, preço justo.</strong>
+    </p>
+
+    <div style="display:flex; gap:14px; flex-wrap:wrap; align-items:center;">
+      <a href="#comprar" style="display:inline-flex; align-items:center; gap:10px; background:var(--orange); color:#fff; text-decoration:none; padding:18px 36px; font-family:'Barlow',sans-serif; font-weight:900; font-size:1rem; text-transform:uppercase; letter-spacing:0.1em; clip-path:polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%); transition:all 0.2s; cursor:pointer; border:none;" style-hover="background:var(--orange-bright); transform:translateY(-2px); box-shadow:0 8px 30px rgba(220,100,30,0.5);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:20px; height:20px; flex-shrink:0;"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        Comprar agora
+      </a>
+      <div style="display:flex; align-items:center; gap:8px; color:#8a7c6e; font-size:0.82rem; font-weight:500;">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px; height:16px; color:var(--amber);"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"></path></svg>
+        <span style="color:var(--amber-light); letter-spacing:2px; font-size:1rem;">★★★★★</span>
+        <span>+1.200 trabalhadores satisfeitos</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:relative; z-index:2; display:flex; align-items:center; justify-content:center; padding:60px 8% 60px 10%;">
+    <div style="width:100%; max-width:440px; position:relative; filter:drop-shadow(0 30px 60px rgba(0,0,0,0.7));">
+      <img src="assets/product.png" alt="Botina Softflex — Castor e Café" style="width:100%; display:block; object-fit:cover; border-radius:18px; border:1px solid rgba(255,255,255,0.15); box-shadow:0 20px 60px rgba(0,0,0,0.6);">
+      <div style="position:absolute; bottom:24px; right:-10px; background:var(--orange); color:#fff; padding:14px 20px; text-align:center; clip-path:polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 6px 50%);">
+        <div style="font-size:0.65rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.85;">A partir de</div>
+        <div data-ml-price style="font-family:'Bebas Neue',sans-serif; font-size:1.8rem; line-height:1; letter-spacing:0.04em;">R$177</div>
+        <div style="font-size:0.65rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.85;">Mercado Livre & Shopee</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEATHER STRIP -->
+<div style="background:var(--bark); padding:36px 5%; display:flex; align-items:center; justify-content:center; gap:clamp(24px, 5vw, 80px); flex-wrap:wrap; border-top:3px solid var(--amber);">
+  <div style="display:flex; align-items:center; gap:14px; color:var(--straw);">
+    <div style="width:48px; height:48px; background:var(--amber); display:flex; align-items:center; justify-content:center; clip-path:polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px; height:22px; color:#fff;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
+    <div><strong style="display:block; font-family:'Bebas Neue',sans-serif; font-size:1.15rem; letter-spacing:0.08em; color:#fff; line-height:1.1;">Couro Legítimo</strong><span style="font-size:0.78rem; color:#c4b49e; letter-spacing:0.04em;">Vaqueta curtida ao cromo, hidrofugada</span></div>
+  </div>
+  <div style="display:flex; align-items:center; gap:14px; color:var(--straw);">
+    <div style="width:48px; height:48px; background:var(--amber); display:flex; align-items:center; justify-content:center; clip-path:polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px; height:22px; color:#fff;"><circle cx="12" cy="12" r="3"></circle><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"></path></svg></div>
+    <div><strong style="display:block; font-family:'Bebas Neue',sans-serif; font-size:1.15rem; letter-spacing:0.08em; color:#fff; line-height:1.1;">Marca Softflex</strong><span style="font-size:0.78rem; color:#c4b49e; letter-spacing:0.04em;">Padrão e qualidade controlados pela Softflex</span></div>
+  </div>
+  <div style="display:flex; align-items:center; gap:14px; color:var(--straw);">
+    <div style="width:48px; height:48px; background:var(--amber); display:flex; align-items:center; justify-content:center; clip-path:polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px; height:22px; color:#fff;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></div>
+    <div><strong style="display:block; font-family:'Bebas Neue',sans-serif; font-size:1.15rem; letter-spacing:0.08em; color:#fff; line-height:1.1;">Fabricação Nacional</strong><span style="font-size:0.78rem; color:#c4b49e; letter-spacing:0.04em;">Produção 100% brasileira com rastreabilidade</span></div>
+  </div>
+  <div style="display:flex; align-items:center; gap:14px; color:var(--straw);">
+    <div style="width:48px; height:48px; background:var(--amber); display:flex; align-items:center; justify-content:center; clip-path:polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px; height:22px; color:#fff;"><rect x="2" y="7" width="20" height="14" rx="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg></div>
+    <div><strong style="display:block; font-family:'Bebas Neue',sans-serif; font-size:1.15rem; letter-spacing:0.08em; color:#fff; line-height:1.1;">Para Empresas</strong><span style="font-size:0.78rem; color:#c4b49e; letter-spacing:0.04em;">Pedidos atacado, nota fiscal, frete negociado</span></div>
+  </div>
+</div>
+
+<!-- PROOF STRIP -->
+<div style="background:var(--black); padding:18px 5%; display:flex; align-items:center; justify-content:center; gap:clamp(20px, 5vw, 60px); flex-wrap:wrap; border-top:2px solid var(--amber); border-bottom:1px solid rgba(255,255,255,0.06);">
+  <div style="display:flex; align-items:center; gap:10px; color:#b0a090; font-size:0.85rem; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; white-space:nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--amber); width:20px; height:20px; flex-shrink:0;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg><span><strong style="color:#fff;">CA Aprovado</strong> — ABNT</span></div>
+  <div style="display:flex; align-items:center; gap:10px; color:#b0a090; font-size:0.85rem; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; white-space:nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--amber); width:20px; height:20px; flex-shrink:0;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg><span><strong style="color:#fff;">+1.200</strong> Clientes ativos</span></div>
+  <div style="display:flex; align-items:center; gap:10px; color:#b0a090; font-size:0.85rem; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; white-space:nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--amber); width:20px; height:20px; flex-shrink:0;"><rect x="1" y="3" width="15" height="13" rx="1"></rect><path d="M16 8h4l3 3v5h-7V8z"></path><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg><span>Entrega <strong style="color:#fff;">rápida</strong> Brasil</span></div>
+  <div style="display:flex; align-items:center; gap:10px; color:#b0a090; font-size:0.85rem; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; white-space:nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--amber); width:20px; height:20px; flex-shrink:0;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Nota fiscal + <strong style="color:#fff;">garantia</strong></span></div>
+</div>
+
+</div>
+
+<!-- BENEFITS -->
+<section style="background:var(--straw); padding:90px 5%; position:relative;">
+  <div style="position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, transparent, var(--amber), var(--orange), transparent);"></div>
+  <div style="max-width:1100px; margin:0 auto;">
+    <div data-fade style="max-width:600px; margin-bottom:60px; opacity:0; transform:translateY(30px); transition:opacity 0.6s ease, transform 0.6s ease;">
+      <div style="font-size:0.75rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--orange); margin-bottom:14px; display:flex; align-items:center; gap:10px;">Por que Softflex?<span style="display:block; height:2px; width:40px; background:var(--orange); flex-shrink:0;"></span></div>
+      <h2 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2.4rem, 5vw, 3.8rem); color:var(--ink); line-height:1; letter-spacing:0.02em; margin:0;">FEITA PARA QUEM<br><em style="font-style:normal; color:var(--amber);">NÃO PARA</em></h2>
+      <p style="margin:14px 0 0; color:var(--text-muted); font-size:1rem; line-height:1.6;">Cada detalhe foi pensado para o trabalhador real. Não para vitrine, para a jornada de 10 horas no campo ou na obra.</p>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:2px;">
+      <div data-fade style="background:var(--warm-white); padding:36px 30px; border-left:4px solid transparent; transition:opacity 0.6s ease, transform 0.6s ease, border-color 0.2s; opacity:0; transform:translateY(30px);" style-hover="border-left-color:var(--orange); box-shadow:0 12px 40px rgba(0,0,0,0.08), -4px 0 20px rgba(200,134,26,0.08);">
+        <div style="width:52px; height:52px; background:var(--ink); display:flex; align-items:center; justify-content:center; margin-bottom:22px; clip-path:polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px; height:24px; color:var(--amber-light);"><path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10z"></path><path d="M8 12s1.5 2 4 2 4-2 4-2"></path><path d="M9 9h.01M15 9h.01"></path></svg></div>
+        <h3 style="font-family:'Bebas Neue',sans-serif; font-size:1.5rem; letter-spacing:0.06em; color:var(--ink); margin:0 0 10px;">Conforto Extremo</h3>
+        <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.65; margin:0;">Palmilha anatômica com amortecimento em EVA de alta densidade. Seus pés agradecidos ao final de cada turno longo.</p>
+      </div>
+      <div data-fade style="background:var(--warm-white); padding:36px 30px; border-left:4px solid transparent; transition:opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s, border-color 0.2s; opacity:0; transform:translateY(30px);" style-hover="border-left-color:var(--orange); box-shadow:0 12px 40px rgba(0,0,0,0.08), -4px 0 20px rgba(200,134,26,0.08);">
+        <div style="width:52px; height:52px; background:var(--ink); display:flex; align-items:center; justify-content:center; margin-bottom:22px; clip-path:polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px; height:24px; color:var(--amber-light);"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
+        <h3 style="font-family:'Bebas Neue',sans-serif; font-size:1.5rem; letter-spacing:0.06em; color:var(--ink); margin:0 0 10px;">Proteção Total</h3>
+        <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.65; margin:0;">Biqueira de composite CA aprovado, resistente a impacto de 200J e compressão. Protege sem pesar.</p>
+      </div>
+      <div data-fade style="background:var(--warm-white); padding:36px 30px; border-left:4px solid transparent; transition:opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s, border-color 0.2s; opacity:0; transform:translateY(30px);" style-hover="border-left-color:var(--orange); box-shadow:0 12px 40px rgba(0,0,0,0.08), -4px 0 20px rgba(200,134,26,0.08);">
+        <div style="width:52px; height:52px; background:var(--ink); display:flex; align-items:center; justify-content:center; margin-bottom:22px; clip-path:polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px; height:24px; color:var(--amber-light);"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg></div>
+        <h3 style="font-family:'Bebas Neue',sans-serif; font-size:1.5rem; letter-spacing:0.06em; color:var(--ink); margin:0 0 10px;">Ultra Resistente</h3>
+        <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.65; margin:0;">Couro legítimo tratado, solado em borracha bipartida antiderrapante. Aguentam lama, pedra, sol e chuva.</p>
+      </div>
+      <div data-fade style="background:var(--warm-white); padding:36px 30px; border-left:4px solid transparent; transition:opacity 0.6s ease 0.05s, transform 0.6s ease 0.05s, border-color 0.2s; opacity:0; transform:translateY(30px);" style-hover="border-left-color:var(--orange); box-shadow:0 12px 40px rgba(0,0,0,0.08), -4px 0 20px rgba(200,134,26,0.08);">
+        <div style="width:52px; height:52px; background:var(--ink); display:flex; align-items:center; justify-content:center; margin-bottom:22px; clip-path:polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px; height:24px; color:var(--amber-light);"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div>
+        <h3 style="font-family:'Bebas Neue',sans-serif; font-size:1.5rem; letter-spacing:0.06em; color:var(--ink); margin:0 0 10px;">Durabilidade Longa</h3>
+        <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.65; margin:0;">Costura dupla reforçada, solado vulcanizado. Invista uma vez e use por anos — mais econômico que trocar todo mês.</p>
+      </div>
+      <div data-fade style="background:var(--warm-white); padding:36px 30px; border-left:4px solid transparent; transition:opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s, border-color 0.2s; opacity:0; transform:translateY(30px);" style-hover="border-left-color:var(--orange); box-shadow:0 12px 40px rgba(0,0,0,0.08), -4px 0 20px rgba(200,134,26,0.08);">
+        <div style="width:52px; height:52px; background:var(--ink); display:flex; align-items:center; justify-content:center; margin-bottom:22px; clip-path:polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px; height:24px; color:var(--amber-light);"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></div>
+        <h3 style="font-family:'Bebas Neue',sans-serif; font-size:1.5rem; letter-spacing:0.06em; color:var(--ink); margin:0 0 10px;">Leveza Surpreendente</h3>
+        <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.65; margin:0;">Design ergonômico reduz o peso em 30% comparado a botinas convencionais. Menos cansaço, mais rendimento.</p>
+      </div>
+      <div data-fade style="background:var(--warm-white); padding:36px 30px; border-left:4px solid transparent; transition:opacity 0.6s ease 0.25s, transform 0.6s ease 0.25s, border-color 0.2s; opacity:0; transform:translateY(30px);" style-hover="border-left-color:var(--orange); box-shadow:0 12px 40px rgba(0,0,0,0.08), -4px 0 20px rgba(200,134,26,0.08);">
+        <div style="width:52px; height:52px; background:var(--ink); display:flex; align-items:center; justify-content:center; margin-bottom:22px; clip-path:polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px; height:24px; color:var(--amber-light);"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></div>
+        <h3 style="font-family:'Bebas Neue',sans-serif; font-size:1.5rem; letter-spacing:0.06em; color:var(--ink); margin:0 0 10px;">Melhor Custo-Benefício</h3>
+        <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.65; margin:0;">A partir de R$177 para uma botina com CA, qualidade premium e durabilidade comprovada. Empresa e trabalhador economizam.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES ROW -->
+<div style="background:var(--black); padding:60px 5%; overflow:hidden;">
+  <div style="max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(3, 1fr); gap:1px; background:rgba(255,255,255,0.05);">
+    <div data-fade style="background:var(--black); padding:36px 24px; text-align:center; transition:opacity 0.6s ease, transform 0.6s ease, background 0.2s; opacity:0; transform:translateY(30px);" style-hover="background:var(--soil);">
+      <span style="font-size:2rem; margin-bottom:14px; display:block;">🌡️</span>
+      <h4 style="font-family:'Bebas Neue',sans-serif; font-size:1.2rem; color:var(--amber-light); letter-spacing:0.06em; margin:0 0 8px;">Anti-Calor</h4>
+      <p style="font-size:0.8rem; color:#6b5e50; line-height:1.5; margin:0;">Forro respirável que mantém o pé seco mesmo nas horas mais quentes do campo</p>
+    </div>
+    <div data-fade style="background:var(--black); padding:36px 24px; text-align:center; transition:opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s, background 0.2s; opacity:0; transform:translateY(30px);" style-hover="background:var(--soil);">
+      <span style="font-size:2rem; margin-bottom:14px; display:block;">⚡</span>
+      <h4 style="font-family:'Bebas Neue',sans-serif; font-size:1.2rem; color:var(--amber-light); letter-spacing:0.06em; margin:0 0 8px;">Anti-Estático</h4>
+      <p style="font-size:0.8rem; color:#6b5e50; line-height:1.5; margin:0;">Proteção contra descargas elétricas — essencial para obras e ambientes industriais</p>
+    </div>
+    <div data-fade style="background:var(--black); padding:36px 24px; text-align:center; transition:opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s, background 0.2s; opacity:0; transform:translateY(30px);" style-hover="background:var(--soil);">
+      <span style="font-size:2rem; margin-bottom:14px; display:block;">💧</span>
+      <h4 style="font-family:'Bebas Neue',sans-serif; font-size:1.2rem; color:var(--amber-light); letter-spacing:0.06em; margin:0 0 8px;">Impermeável</h4>
+      <p style="font-size:0.8rem; color:#6b5e50; line-height:1.5; margin:0;">Tratamento hidrofugante no couro. Chuva e lama não entram, o trabalho não para</p>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT + CHECKOUT-LEFT -->
+<section id="produto" style="background:var(--ink); padding:100px 5%; position:relative; overflow:hidden;">
+  <div style="position:absolute; inset:0; background:repeating-linear-gradient(-45deg, transparent, transparent 60px, rgba(255,255,255,0.01) 60px, rgba(255,255,255,0.01) 61px); pointer-events:none;"></div>
+  <div style="max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; position:relative; z-index:1;">
+
+    <div data-fade style="position:relative; opacity:0; transform:translateY(30px); transition:opacity 0.6s ease, transform 0.6s ease;">
+      <img src="assets/product.png" alt="Botina Softflex Campo Pro — Castor e Café" style="width:100%; display:block; object-fit:cover; border-radius:18px; box-shadow:0 30px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.07), inset 0 1px 0 rgba(255,255,255,0.12);">
+      <div style="position:absolute; top:-14px; right:-14px; width:84px; height:84px; background:radial-gradient(circle at 35% 35%, oklch(0.72 0.16 65), var(--amber)); border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; color:#fff; font-weight:700; font-size:0.62rem; line-height:1.3; letter-spacing:0.06em; text-transform:uppercase; box-shadow:0 0 0 4px var(--ink), 0 0 0 6px var(--amber), 0 8px 24px rgba(200,134,26,0.5);">
+        <strong style="font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:0.04em;">CA</strong>
+        Aprovado<br>ABNT
+      </div>
+    </div>
+
+    <div data-fade style="opacity:0; transform:translateY(30px); transition:opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s;">
+      <div style="font-size:0.75rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--amber); margin-bottom:14px; display:flex; align-items:center; gap:10px;">O produto<span style="height:2px; width:40px; background:var(--amber); flex-shrink:0;"></span></div>
+      <h2 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2.2rem,4vw,3.4rem); color:#fff; line-height:1; letter-spacing:0.02em; margin:0 0 18px;">BOTINA SOFTFLEX<br>MODELO CAMPO PRO</h2>
+
+      <ul style="list-style:none; margin:0 0 32px; padding:0; display:flex; flex-direction:column; gap:10px;">
+        <li style="display:flex; align-items:center; gap:10px; color:#c4b49e; font-size:0.9rem; font-weight:500;"><span style="width:6px; height:6px; background:var(--amber); clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%); flex-shrink:0;"></span>Couro legítimo — vaqueta curtida ao cromo, hidrofugada</li>
+        <li style="display:flex; align-items:center; gap:10px; color:#c4b49e; font-size:0.9rem; font-weight:500;"><span style="width:6px; height:6px; background:var(--amber); clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%); flex-shrink:0;"></span>Marca Softflex — qualidade controlada</li>
+        <li style="display:flex; align-items:center; gap:10px; color:#c4b49e; font-size:0.9rem; font-weight:500;"><span style="width:6px; height:6px; background:var(--amber); clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%); flex-shrink:0;"></span>Biqueira composite 200J — aprovada CA</li>
+        <li style="display:flex; align-items:center; gap:10px; color:#c4b49e; font-size:0.9rem; font-weight:500;"><span style="width:6px; height:6px; background:var(--amber); clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%); flex-shrink:0;"></span>Solado borracha bipartida antiderrapante</li>
+        <li style="display:flex; align-items:center; gap:10px; color:#c4b49e; font-size:0.9rem; font-weight:500;"><span style="width:6px; height:6px; background:var(--amber); clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%); flex-shrink:0;"></span>Forro antimicrobiano respirável</li>
+        <li style="display:flex; align-items:center; gap:10px; color:#c4b49e; font-size:0.9rem; font-weight:500;"><span style="width:6px; height:6px; background:var(--amber); clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%); flex-shrink:0;"></span>Numeração: 35 ao 45</li>
+      </ul>
+
+      <!-- STOCK BAR -->
+      <div style="margin-bottom:28px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em;">
+          <span style="color:#c4b49e;">🔥 Estoque deste lote</span>
+          <span id="stock-right" style="color:var(--orange);">Apenas 23 pares restantes!</span>
+        </div>
+        <div style="height:6px; background:rgba(255,255,255,0.08); overflow:hidden;"><div style="height:100%; width:23%; background:linear-gradient(90deg, var(--amber), var(--orange)); animation:fill-anim 1.5s ease-out forwards;"></div></div>
+      </div>
+
+      <!-- PRICE -->
+      <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-left:4px solid var(--orange); padding:24px 28px; margin-bottom:28px; display:flex; align-items:center; gap:24px; flex-wrap:wrap;">
+        <div style="display:flex; flex-direction:column;">
+          <span style="font-size:0.8rem; font-weight:700; color:#8a7c6e; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:4px;">A partir de</span>
+          <span data-ml-price style="font-family:'Bebas Neue',sans-serif; font-size:3.8rem; line-height:1; color:#fff; letter-spacing:0.02em;">R$177</span>
+          <span style="font-size:0.82rem; color:#8a7c6e; margin-top:4px;">no Mercado Livre · <span data-shopee-price style="color:#c4b49e;">R$189,90</span> na Shopee</span>
+        </div>
+        <div style="width:1px; height:60px; background:rgba(255,255,255,0.1); flex-shrink:0;"></div>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <div style="font-size:0.8rem; font-weight:600; color:#9a8c7e; display:flex; align-items:center; gap:7px; text-transform:uppercase; letter-spacing:0.04em;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color:var(--amber); width:14px; height:14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Couro legítimo CA aprovado</div>
+          <div style="font-size:0.8rem; font-weight:600; color:#9a8c7e; display:flex; align-items:center; gap:7px; text-transform:uppercase; letter-spacing:0.04em;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color:var(--amber); width:14px; height:14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Garantia contra defeitos</div>
+          <div style="font-size:0.8rem; font-weight:600; color:#9a8c7e; display:flex; align-items:center; gap:7px; text-transform:uppercase; letter-spacing:0.04em;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color:var(--amber); width:14px; height:14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Avaliações 5 estrelas</div>
+          <div style="font-size:0.8rem; font-weight:600; color:#9a8c7e; display:flex; align-items:center; gap:7px; text-transform:uppercase; letter-spacing:0.04em;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color:var(--amber); width:14px; height:14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Entrega para todo o Brasil</div>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <a href="https://www.mercadolivre.com.br/botina-couro-nobuck-legitimo-confortavel-soft-flex-ca-epi/up/MLBU3899861481" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:14px; width:100%; background:#ffe600; color:#2d3277; padding:15px 24px; text-decoration:none; clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%); transition:all 0.2s; box-sizing:border-box;" style-hover="background:#ffec40; transform:translateY(-2px);">
+          <img src="assets/ml-logo.png" alt="Mercado Livre" style="height:28px; display:block;">
+          <span data-ml-price style="margin-left:auto; font-family:'Bebas Neue',sans-serif; font-size:1.7rem; letter-spacing:0.02em;">R$177</span>
+        </a>
+        <a href="https://shopee.com.br/product/1841360415/58212350134/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:14px; width:100%; background:#ee4d2d; color:#fff; padding:15px 24px; text-decoration:none; clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%); transition:all 0.2s; box-sizing:border-box;" style-hover="background:#ff5c3c; transform:translateY(-2px);">
+          <img src="assets/shopee-logo.png" alt="Shopee" style="height:30px; display:block;">
+          <span data-shopee-price style="margin-left:auto; font-family:'Bebas Neue',sans-serif; font-size:1.7rem; letter-spacing:0.02em;">R$189,90</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section style="background:var(--soil); padding:90px 5%;">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div data-fade style="text-align:center; margin-bottom:50px; opacity:0; transform:translateY(30px); transition:opacity 0.6s ease, transform 0.6s ease;">
+      <div style="font-size:0.75rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--amber-light); margin-bottom:14px;">Veja em ação</div>
+      <h2 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2.2rem,4.5vw,3.4rem); color:#fff; letter-spacing:0.02em; margin:0;">A BOTINA NO CAMPO<br>E NA OBRA</h2>
+      <p style="color:#8a7c6e; font-size:1rem; margin:10px 0 0;">Durabilidade e conforto comprovados no dia a dia de quem trabalha de verdade</p>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:28px;">
+      <div data-fade style="position:relative; overflow:hidden; background:#000; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.07), inset 0 1px 0 rgba(255,255,255,0.1); opacity:0; transform:translateY(30px); transition:opacity 0.6s ease, transform 0.6s ease;">
+        <video data-sf-video src="assets/video1.mp4" controls playsinline preload="metadata" style="width:100%; display:block; max-height:520px; object-fit:cover; border-radius:16px;"></video>
+        <div style="position:absolute; bottom:0; left:0; right:0; background:linear-gradient(to top, rgba(0,0,0,0.82), transparent); padding:28px 20px 16px; font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:0.1em; color:var(--amber-light); text-transform:uppercase; border-radius:0 0 16px 16px; pointer-events:none;">Softflex — Resistência no Campo</div>
+      </div>
+      <div data-fade style="position:relative; overflow:hidden; background:#000; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.07), inset 0 1px 0 rgba(255,255,255,0.1); opacity:0; transform:translateY(30px); transition:opacity 0.6s ease 0.12s, transform 0.6s ease 0.12s;">
+        <video data-sf-video src="assets/video2.mp4" controls playsinline preload="metadata" style="width:100%; display:block; max-height:520px; object-fit:cover; border-radius:16px;"></video>
+        <div style="position:absolute; bottom:0; left:0; right:0; background:linear-gradient(to top, rgba(0,0,0,0.82), transparent); padding:28px 20px 16px; font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:0.1em; color:var(--amber-light); text-transform:uppercase; border-radius:0 0 16px 16px; pointer-events:none;">Softflex — Conforto na Obra</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section style="background:var(--straw); padding:90px 5%; position:relative;">
+  <div style="position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, transparent, var(--orange), var(--amber), transparent);"></div>
+  <div style="max-width:1100px; margin:0 auto;">
+    <div data-fade style="text-align:center; margin-bottom:56px; opacity:0; transform:translateY(30px); transition:opacity 0.6s ease, transform 0.6s ease;">
+      <div style="font-size:0.75rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--orange); margin-bottom:14px;">Quem já usa</div>
+      <h2 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2.2rem,4.5vw,3.4rem); color:var(--ink); letter-spacing:0.02em; margin:0;">QUEM TRABALHOU APROVOU</h2>
+      <p style="color:var(--text-muted); font-size:1rem; margin:10px 0 0;">Mais de 1.200 trabalhadores do agro e construção já confiam na Softflex</p>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;">
+      <div data-fade style="background:var(--warm-white); padding:32px 28px; border-top:3px solid var(--amber); position:relative; opacity:0; transform:translateY(30px); transition:opacity 0.6s ease, transform 0.6s ease;">
+        <div style="color:var(--amber); font-size:0.9rem; margin-bottom:10px; letter-spacing:2px;">★★★★★</div>
+        <div style="font-size:3rem; line-height:1; color:var(--amber); font-family:Georgia,serif; margin-bottom:14px; opacity:0.5;">"</div>
+        <p style="font-size:0.95rem; color:var(--ink); line-height:1.7; font-style:italic; margin:0 0 20px;">Trabalho na colheita de soja há 15 anos e nunca encontrei uma botina que durasse tanto. Já faz 14 meses usando e tá nova ainda. Valeu cada centavo.</p>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:44px; height:44px; background:var(--bark); clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%); display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:var(--amber-light); flex-shrink:0;">JP</div>
+          <div><strong style="display:block; font-size:0.88rem; font-weight:700; color:var(--ink); letter-spacing:0.02em;">João Paulo R.</strong><span style="font-size:0.78rem; color:var(--text-muted);">Trabalhador rural — MT</span></div>
+        </div>
+      </div>
+      <div data-fade style="background:var(--warm-white); padding:32px 28px; border-top:3px solid var(--orange); position:relative; opacity:0; transform:translateY(30px); transition:opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s;">
+        <div style="color:var(--amber); font-size:0.9rem; margin-bottom:10px; letter-spacing:2px;">★★★★★</div>
+        <div style="font-size:3rem; line-height:1; color:var(--amber); font-family:Georgia,serif; margin-bottom:14px; opacity:0.5;">"</div>
+        <p style="font-size:0.95rem; color:var(--ink); line-height:1.7; font-style:italic; margin:0 0 20px;">Comprei 12 pares pra minha equipe de obra. O pessoal não para de elogiar o conforto. Preço de atacado muito bom e nota fiscal toda certinha.</p>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:44px; height:44px; background:var(--bark); clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%); display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:var(--amber-light); flex-shrink:0;">MF</div>
+          <div><strong style="display:block; font-size:0.88rem; font-weight:700; color:var(--ink); letter-spacing:0.02em;">Marcos F. — Engenheiro</strong><span style="font-size:0.78rem; color:var(--text-muted);">Construtora — SP</span></div>
+        </div>
+      </div>
+      <div data-fade style="background:var(--warm-white); padding:32px 28px; border-top:3px solid var(--amber-light); position:relative; opacity:0; transform:translateY(30px); transition:opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;">
+        <div style="color:var(--amber); font-size:0.9rem; margin-bottom:10px; letter-spacing:2px;">★★★★★</div>
+        <div style="font-size:3rem; line-height:1; color:var(--amber); font-family:Georgia,serif; margin-bottom:14px; opacity:0.5;">"</div>
+        <p style="font-size:0.95rem; color:var(--ink); line-height:1.7; font-style:italic; margin:0 0 20px;">Sou comprador de EPI de uma empresa grande. Testamos 5 marcas e a Softflex ganhou em durabilidade e custo. Já temos contrato anual com eles.</p>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:44px; height:44px; background:var(--bark); clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%); display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:var(--amber-light); flex-shrink:0;">AS</div>
+          <div><strong style="display:block; font-size:0.88rem; font-weight:700; color:var(--ink); letter-spacing:0.02em;">André S. — Comprador EPI</strong><span style="font-size:0.78rem; color:var(--text-muted);">Empresa agro — GO</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPRAR -->
+<section id="comprar" style="background:var(--cream); padding:90px 5%;">
+  <div style="max-width:920px; margin:0 auto;">
+    <div data-fade style="text-align:center; margin-bottom:48px; opacity:0; transform:translateY(30px); transition:opacity 0.6s ease, transform 0.6s ease;">
+      <div style="font-size:0.75rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--orange); margin-bottom:14px;">Onde comprar</div>
+      <h2 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2.2rem,4.5vw,3.2rem); color:var(--ink); letter-spacing:0.02em; margin:0;">ESCOLHA SUA LOJA E GARANTA A SUA</h2>
+      <p style="color:var(--text-muted); margin:10px auto 0; font-size:1rem; max-width:560px;">Disponível nas duas maiores plataformas do Brasil. Compra 100% segura — frete, pagamento e entrega feitos pela própria loja.</p>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+      <div data-fade style="background:var(--warm-white); border:1px solid rgba(0,0,0,0.08); border-top:4px solid #ffe600; padding:34px 30px; display:flex; flex-direction:column; gap:20px; box-shadow:0 20px 60px rgba(0,0,0,0.06); opacity:0; transform:translateY(30px); transition:opacity 0.6s ease, transform 0.6s ease;">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+          <img src="assets/ml-logo.png" alt="Mercado Livre" style="height:34px; display:block;">
+          <span style="color:var(--amber); letter-spacing:2px; font-size:0.85rem;">★★★★★</span>
+        </div>
+        <div style="display:flex; align-items:flex-end; gap:8px;">
+          <span data-ml-price style="font-family:'Bebas Neue',sans-serif; font-size:3rem; line-height:0.9; color:var(--ink);">R$177</span>
+          <span style="font-size:0.8rem; color:var(--text-muted); padding-bottom:6px;">à vista no Pix</span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="font-size:0.82rem; color:var(--text-muted); display:flex; align-items:center; gap:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="#1fa34a" stroke-width="2.5" style="width:15px; height:15px; flex-shrink:0;"><polyline points="20 6 9 17 4 12"></polyline></svg>Frete grátis com Mercado Envios Full</div>
+          <div style="font-size:0.82rem; color:var(--text-muted); display:flex; align-items:center; gap:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="#1fa34a" stroke-width="2.5" style="width:15px; height:15px; flex-shrink:0;"><polyline points="20 6 9 17 4 12"></polyline></svg>Compra Garantida do início ao fim</div>
+          <div style="font-size:0.82rem; color:var(--text-muted); display:flex; align-items:center; gap:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="#1fa34a" stroke-width="2.5" style="width:15px; height:15px; flex-shrink:0;"><polyline points="20 6 9 17 4 12"></polyline></svg>Parcele em até 12× no cartão</div>
+        </div>
+        <a href="https://www.mercadolivre.com.br/botina-couro-nobuck-legitimo-confortavel-soft-flex-ca-epi/up/MLBU3899861481" target="_blank" rel="noopener" style="margin-top:auto; display:flex; align-items:center; justify-content:center; gap:10px; width:100%; background:#ffe600; color:#2d3277; padding:16px 24px; font-family:'Barlow',sans-serif; font-weight:900; font-size:1rem; text-transform:uppercase; letter-spacing:0.06em; text-decoration:none; clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%); transition:all 0.2s; box-sizing:border-box;" style-hover="background:#ffec40; transform:translateY(-2px);">
+          <img src="assets/ml-logo.png" alt="" style="height:22px; display:block; flex-shrink:0;">
+          Comprar no Mercado Livre
+        </a>
+      </div>
+
+      <div data-fade style="background:var(--warm-white); border:1px solid rgba(0,0,0,0.08); border-top:4px solid #ee4d2d; padding:34px 30px; display:flex; flex-direction:column; gap:20px; box-shadow:0 20px 60px rgba(0,0,0,0.06); opacity:0; transform:translateY(30px); transition:opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s;">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+          <img src="assets/shopee-logo.png" alt="Shopee" style="height:34px; display:block;">
+          <span style="color:var(--amber); letter-spacing:2px; font-size:0.85rem;">★★★★★</span>
+        </div>
+        <div style="display:flex; align-items:flex-end; gap:8px;">
+          <span data-shopee-price style="font-family:'Bebas Neue',sans-serif; font-size:3rem; line-height:0.9; color:var(--ink);">R$189,90</span>
+          <span style="font-size:0.8rem; color:var(--text-muted); padding-bottom:6px;">com cupons</span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="font-size:0.82rem; color:var(--text-muted); display:flex; align-items:center; gap:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="#1fa34a" stroke-width="2.5" style="width:15px; height:15px; flex-shrink:0;"><polyline points="20 6 9 17 4 12"></polyline></svg>Frete grátis com cupom Shopee</div>
+          <div style="font-size:0.82rem; color:var(--text-muted); display:flex; align-items:center; gap:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="#1fa34a" stroke-width="2.5" style="width:15px; height:15px; flex-shrink:0;"><polyline points="20 6 9 17 4 12"></polyline></svg>Garantia Shopee e devolução fácil</div>
+          <div style="font-size:0.82rem; color:var(--text-muted); display:flex; align-items:center; gap:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="#1fa34a" stroke-width="2.5" style="width:15px; height:15px; flex-shrink:0;"><polyline points="20 6 9 17 4 12"></polyline></svg>Parcele no cartão pelo app</div>
+        </div>
+        <a href="https://shopee.com.br/product/1841360415/58212350134/" target="_blank" rel="noopener" style="margin-top:auto; display:flex; align-items:center; justify-content:center; gap:10px; width:100%; background:#ee4d2d; color:#fff; padding:16px 24px; font-family:'Barlow',sans-serif; font-weight:900; font-size:1rem; text-transform:uppercase; letter-spacing:0.06em; text-decoration:none; clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%); transition:all 0.2s; box-sizing:border-box;" style-hover="background:#ff5c3c; transform:translateY(-2px);">
+          <img src="assets/shopee-logo.png" alt="" style="height:24px; display:block; flex-shrink:0;">
+          Comprar na Shopee
+        </a>
+      </div>
+    </div>
+
+    <div style="display:flex; align-items:center; justify-content:center; gap:24px; margin-top:32px; flex-wrap:wrap;">
+      <div style="display:flex; align-items:center; gap:8px; font-size:0.78rem; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.06em;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--amber); width:15px; height:15px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>Couro legítimo</div>
+      <div style="display:flex; align-items:center; gap:8px; font-size:0.78rem; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.06em;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--amber); width:15px; height:15px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>CA aprovado · ABNT</div>
+      <div style="display:flex; align-items:center; gap:8px; font-size:0.78rem; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.06em;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--amber); width:15px; height:15px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>Compra segura na plataforma</div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section style="background:var(--orange); padding:80px 5%; text-align:center; position:relative; overflow:hidden;">
+  <div style="position:absolute; inset:0; background:repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(0,0,0,0.06) 30px, rgba(0,0,0,0.06) 31px); pointer-events:none;"></div>
+  <h2 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2.4rem,5vw,4rem); color:#fff; letter-spacing:0.02em; margin:0 0 14px; position:relative; z-index:1;">NÃO DEIXE O ESTOQUE ACABAR</h2>
+  <p style="color:rgba(255,255,255,0.9); font-size:1.1rem; margin:0 0 36px; position:relative; z-index:1;">Apenas <strong id="final-stock">23</strong> pares disponíveis neste lote. Escolha sua loja e garanta o seu.</p>
+  <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap; position:relative; z-index:1; max-width:680px; margin:0 auto;">
+    <a href="https://www.mercadolivre.com.br/botina-couro-nobuck-legitimo-confortavel-soft-flex-ca-epi/up/MLBU3899861481" target="_blank" rel="noopener" style="flex:1 1 250px; display:inline-flex; align-items:center; justify-content:center; gap:10px; background:#ffe600; color:#2d3277; text-decoration:none; padding:18px 28px; font-family:'Barlow',sans-serif; font-weight:900; font-size:0.98rem; text-transform:uppercase; letter-spacing:0.05em; clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%); transition:all 0.2s;" style-hover="background:#ffec40; transform:translateY(-2px);">
+      <img src="assets/ml-logo.png" alt="Mercado Livre" style="height:22px; display:block;"> <span data-ml-price>R$177</span>
+    </a>
+    <a href="https://shopee.com.br/product/1841360415/58212350134/" target="_blank" rel="noopener" style="flex:1 1 250px; display:inline-flex; align-items:center; justify-content:center; gap:10px; background:#ee4d2d; color:#fff; text-decoration:none; padding:18px 28px; font-family:'Barlow',sans-serif; font-weight:900; font-size:0.98rem; text-transform:uppercase; letter-spacing:0.05em; clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%); transition:all 0.2s;" style-hover="background:#ff5c3c; transform:translateY(-2px);">
+      <img src="assets/shopee-logo.png" alt="Shopee" style="height:24px; display:block;"> <span data-shopee-price>R$189,90</span>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="background:var(--black); padding:32px 5%; display:flex; align-items:center; justify-content:space-between; border-top:1px solid rgba(255,255,255,0.06); flex-wrap:wrap; gap:16px;">
+  <div style="display:flex; align-items:center; gap:14px;">
+    <img src="assets/boxfast-logo.png" alt="BoxFast" style="height:36px; display:block; opacity:0.7;">
+    <div style="width:1px; height:28px; background:rgba(255,255,255,0.08);"></div>
+    <div>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:1.6rem; color:var(--amber-light); letter-spacing:0.08em;">Soft<span style="color:#fff;">flex</span></div>
+      <div style="font-size:0.8rem; color:var(--steel); text-transform:uppercase; letter-spacing:0.1em; margin-top:2px;">Botinas para quem trabalha de verdade</div>
+    </div>
+  </div>
+  <p style="font-size:0.78rem; color:#4a3e30; text-align:right; margin:0;">© 2026 Softflex — Todos os direitos reservados<br>CNPJ: 63.262.887/0001-06 · contato@softflex.com.br<br><span style="color:#6b5e50; font-size:0.72rem; letter-spacing:0.06em;">Distribuição autorizada pela <strong style="color:#8a7c6e;">BoxFast</strong></span></p>
+</footer>
+
+<!-- COMPRAR FLOAT -->
+<a href="#comprar" aria-label="Comprar agora" style="position:fixed; bottom:28px; right:28px; display:flex; align-items:center; gap:10px; background:var(--orange); color:#fff; padding:14px 22px; font-family:'Barlow',sans-serif; font-weight:900; font-size:0.9rem; text-transform:uppercase; letter-spacing:0.08em; text-decoration:none; box-shadow:0 4px 24px rgba(220,100,30,0.5); z-index:999; clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%); animation:wpp-bounce 3s ease-in-out infinite; transition:transform 0.2s;" style-hover="transform:scale(1.06); animation:none;">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:20px; height:20px;"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+  Comprar agora
+</a>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;primaryColor&quot;: { &quot;editor&quot;: &quot;color&quot;, &quot;default&quot;: &quot;#d4622a&quot; },
+  &quot;accentColor&quot;: { &quot;editor&quot;: &quot;color&quot;, &quot;default&quot;: &quot;#c8861a&quot; },
+  &quot;mlPrice&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;177&quot; },
+  &quot;shopeePrice&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;189,90&quot; },
+  &quot;stockCount&quot;: { &quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 23, &quot;min&quot;: 1, &quot;max&quot;: 99 },
+  &quot;showUrgencyBar&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true }
+}">
+class Component extends DCLogic {
+  componentDidMount() {
+    this.applyTweaks();
+    this.initFadeUp();
+    this.initStock();
+    this.initVideoPosters();
+  }
+
+  initVideoPosters() {
+    document.querySelectorAll('[data-sf-video]').forEach(v => {
+      const canvas = document.createElement('canvas');
+      const capture = () => {
+        try {
+          canvas.width = v.videoWidth || 640;
+          canvas.height = v.videoHeight || 360;
+          canvas.getContext('2d').drawImage(v, 0, 0);
+          v.poster = canvas.toDataURL('image/jpeg', 0.9);
+        } catch (e) {}
+        v.removeEventListener('seeked', capture);
+      };
+      v.addEventListener('seeked', capture);
+      v.addEventListener('loadeddata', () => { try { v.currentTime = 0.5; } catch (e) {} });
+      v.muted = true;
+      v.load();
+    });
+  }
+  componentDidUpdate() { this.applyTweaks(); }
+
+  applyTweaks() {
+    const root = document.documentElement;
+    const primary = this.props.primaryColor || '#d4622a';
+    const accent = this.props.accentColor || '#c8861a';
+    root.style.setProperty('--orange', primary);
+    root.style.setProperty('--orange-bright', primary);
+    root.style.setProperty('--amber', accent);
+    root.style.setProperty('--amber-light', accent);
+    const ml = this.props.mlPrice || '177';
+    const shopee = this.props.shopeePrice || '189,90';
+    document.querySelectorAll('[data-ml-price]').forEach(el => { el.textContent = 'R$' + ml; });
+    document.querySelectorAll('[data-shopee-price]').forEach(el => { el.textContent = 'R$' + shopee; });
+    const stock = this.props.stockCount;
+    if (stock != null) {
+      const n = document.getElementById('stock-num'); if (n) n.textContent = stock;
+      const f = document.getElementById('final-stock'); if (f) f.textContent = stock;
+      const s = document.getElementById('stock-right'); if (s) s.textContent = 'Apenas ' + stock + ' pares restantes!';
+    }
+    const bar = document.getElementById('urgency-bar');
+    if (bar) bar.style.display = (this.props.showUrgencyBar === false) ? 'none' : '';
+  }
+
+  initFadeUp() {
+    const els = document.querySelectorAll('[data-fade]');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; }
+      });
+    }, { threshold: 0.1 });
+    els.forEach(el => obs.observe(el));
+  }
+
+  initStock() {
+    let stockLeft = this.props.stockCount || 23;
+    this._stockTimer = setInterval(() => {
+      if (stockLeft > 18 && Math.random() > 0.6) {
+        stockLeft--;
+        const n = document.getElementById('stock-num'); if (n) n.textContent = stockLeft;
+        const f = document.getElementById('final-stock'); if (f) f.textContent = stockLeft;
+      }
+    }, 45000);
+  }
+  componentWillUnmount() { clearInterval(this._stockTimer); }
+
+  // ── SELECTORS ──
+  selectColor = (e) => {
+    document.querySelectorAll('[data-color-btn]').forEach(b => {
+      b.style.borderColor = 'rgba(255,255,255,0.12)';
+      b.style.color = '#c4b49e';
+      b.style.background = 'rgba(255,255,255,0.05)';
+    });
+    const t = e.currentTarget;
+    t.style.borderColor = 'var(--orange)';
+    t.style.color = '#fff';
+    t.style.background = 'rgba(255,255,255,0.08)';
+    const cor = t.getAttribute('data-cor');
+    if (cor) { const sel = document.getElementById('co-cor'); if (sel) sel.value = cor; }
+  };
+
+  selectSize = (e) => {
+    document.querySelectorAll('[data-size]').forEach(b => {
+      b.style.background = 'rgba(255,255,255,0.05)';
+      b.style.borderColor = 'rgba(255,255,255,0.12)';
+      b.style.color = '#c4b49e';
+    });
+    const t = e.currentTarget;
+    t.style.background = 'var(--orange)';
+    t.style.borderColor = 'var(--orange)';
+    t.style.color = '#fff';
+    this._selectedSize = t.getAttribute('data-size');
+    const sel = document.getElementById('co-numero');
+    if (sel) sel.value = this._selectedSize;
+  };
+
+  selectPayment = (e) => {
+    const type = e.currentTarget.getAttribute('data-pay');
+    document.querySelectorAll('[data-pay]').forEach(b => {
+      b.style.borderColor = '#e0d8ce';
+      b.style.background = '#fff';
+      b.style.color = 'var(--text-muted)';
+    });
+    const t = e.currentTarget;
+    t.style.borderColor = 'var(--orange)';
+    t.style.background = 'rgba(212,98,42,0.06)';
+    t.style.color = 'var(--ink)';
+    this._payment = type;
+    const show = (id, on) => { const el = document.getElementById(id); if (el) el.style.display = on ? '' : 'none'; };
+    show('pix-info', type === 'pix');
+    show('cartao-info', type === 'cartao');
+    show('boleto-info', type === 'boleto');
+  };
+
+  // ── FRETE ──
+  calcularFrete(cep, qtd) {
+    const n = parseInt(String(cep).replace('-',''));
+    const q = parseInt(qtd) || 1;
+    let frete = 0, prazo = '', label = '';
+    const prefix = Math.floor(n / 100000);
+    if (prefix <= 9) { frete = 18; prazo = '2-3 dias úteis'; label = 'São Paulo Capital'; }
+    else if (prefix <= 19) { frete = 22; prazo = '3-4 dias úteis'; label = 'São Paulo Interior'; }
+    else if (prefix <= 29) { frete = 25; prazo = '3-4 dias úteis'; label = 'RJ / ES'; }
+    else if (prefix <= 39) { frete = 27; prazo = '4-5 dias úteis'; label = 'Minas Gerais'; }
+    else if (prefix <= 49) { frete = 32; prazo = '5-6 dias úteis'; label = 'BA / SE'; }
+    else if (prefix <= 59) { frete = 35; prazo = '6-7 dias úteis'; label = 'PE / AL / PB / RN'; }
+    else if (prefix <= 65) { frete = 38; prazo = '7-8 dias úteis'; label = 'CE / PI / MA'; }
+    else if (prefix <= 69) { frete = 45; prazo = '8-10 dias úteis'; label = 'Norte do Brasil'; }
+    else if (prefix <= 77) { frete = 30; prazo = '4-5 dias úteis'; label = 'DF / GO / TO'; }
+    else if (prefix <= 79) { frete = 38; prazo = '6-7 dias úteis'; label = 'MT / MS / RO / AC'; }
+    else if (prefix <= 89) { frete = 25; prazo = '3-4 dias úteis'; label = 'PR / SC'; }
+    else { frete = 28; prazo = '4-5 dias úteis'; label = 'Rio Grande do Sul'; }
+    if (q >= 3) { frete = 0; prazo = prazo + ' — GRÁTIS!'; }
+    return { frete, prazo, label };
+  }
+
+  precoSubtotal(qtd) {
+    const precos = { 1:160, 2:320, 3:480, 5:800, 10:1600 };
+    return precos[qtd] || qtd * 160;
+  }
+
+  atualizarTotal() {
+    const qtd = parseInt(document.getElementById('co-qtd')?.value) || 1;
+    const subtotal = this.precoSubtotal(qtd);
+    const cep = document.getElementById('co-cep')?.value.replace(/\D/g,'') || '';
+    let frete = 0;
+    if (cep.length === 8 && qtd < 3) frete = this.calcularFrete(cep, qtd).frete;
+    const total = subtotal + frete;
+    const totalEl = document.getElementById('total-valor');
+    const totalRow = document.getElementById('total-row');
+    if (totalEl) totalEl.textContent = 'R$' + total.toLocaleString('pt-BR');
+    if (totalRow) totalRow.style.display = cep.length === 8 ? 'flex' : 'none';
+  }
+
+  renderFreteBox(raw, qtd) {
+    const result = this.calcularFrete(raw, qtd);
+    const box = document.getElementById('frete-box');
+    if (!box) return;
+    box.style.display = 'flex';
+    box.style.background = result.frete === 0 ? '#f0fdf4' : '#f0fdf4';
+    box.style.borderColor = '#86efac';
+    const labelEl = document.getElementById('frete-label');
+    const valorEl = document.getElementById('frete-valor');
+    const prazoEl = document.getElementById('frete-prazo');
+    labelEl.textContent = result.frete === 0 ? '🎉 Frete GRÁTIS — ' + result.label : 'Frete PAC — ' + result.label;
+    valorEl.textContent = result.frete === 0 ? 'GRÁTIS' : 'R$' + result.frete;
+    prazoEl.textContent = result.prazo;
+  }
+
+  onCepInput = (e) => {
+    let v = e.target.value.replace(/\D/g, '');
+    if (v.length > 5) v = v.substring(0,5) + '-' + v.substring(5,8);
+    e.target.value = v;
+    const raw = v.replace('-','');
+    if (raw.length === 8) {
+      const qtd = parseInt(document.getElementById('co-qtd')?.value) || 1;
+      this.renderFreteBox(raw, qtd);
+      this.atualizarTotal();
+      fetch('https://viacep.com.br/ws/' + raw + '/json/')
+        .then(r => r.json())
+        .then(d => {
+          if (!d.erro) {
+            const cidade = document.getElementById('co-cidade');
+            if (cidade) cidade.value = d.localidade + ' — ' + d.uf;
+            const end = document.getElementById('co-endereco');
+            if (end && !end.value && d.logradouro) end.value = d.logradouro + (d.bairro ? ', ' + d.bairro : '');
+          }
+        }).catch(() => {});
+    }
+  };
+
+  onQtdChange = () => {
+    this.atualizarTotal();
+    const cep = document.getElementById('co-cep')?.value.replace(/\D/g,'') || '';
+    if (cep.length === 8) {
+      const qtd = parseInt(document.getElementById('co-qtd')?.value) || 1;
+      this.renderFreteBox(cep, qtd);
+    }
+  };
+
+  onTelInput = (e) => {
+    let v = e.target.value.replace(/\D/g, '');
+    if (v.length <= 10) v = v.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+    else v = v.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
+    e.target.value = v;
+  };
+
+  collectForm() {
+    return {
+      nome: document.getElementById('co-nome')?.value.trim() || '',
+      tel: document.getElementById('co-tel')?.value.trim() || '',
+      email: document.getElementById('co-email')?.value.trim() || '',
+      cor: document.getElementById('co-cor')?.value || 'castor',
+      numero: document.getElementById('co-numero')?.value || '',
+      qtd: document.getElementById('co-qtd')?.value || '1',
+      cep: document.getElementById('co-cep')?.value.trim() || '',
+      cidade: document.getElementById('co-cidade')?.value.trim() || '',
+      endereco: document.getElementById('co-endereco')?.value.trim() || '',
+    };
+  }
+
+  enviarPedidoLink = (e) => { e.preventDefault(); this.enviarPedido(); };
+
+  enviarPedido = () => {
+    const f = this.collectForm();
+    if (!f.nome || !f.tel || !f.numero || !f.cep || !f.cidade || !f.endereco) {
+      alert('Por favor, preencha todos os campos antes de finalizar o pedido.');
+      return;
+    }
+    const corLabel = f.cor === 'castor' ? 'Castor (amarelo)' : 'Café (marrom)';
+    const qtdOpt = document.getElementById('co-qtd');
+    const qtdLabel = qtdOpt.options[qtdOpt.selectedIndex].text;
+    const pagLabel = this._payment === 'cartao' ? 'Cartão de Crédito' : this._payment === 'boleto' ? 'Boleto' : 'PIX';
+    const freteInfo = this.calcularFrete(f.cep.replace(/\D/g,''), parseInt(f.qtd));
+    const freteTexto = freteInfo.frete === 0 ? 'GRÁTIS' : 'R$' + freteInfo.frete;
+    const totalEl = document.getElementById('total-valor');
+    const totalTexto = totalEl ? totalEl.textContent : 'R$160';
+    const msg = '🥾 *NOVO PEDIDO — SOFTFLEX*\n\n*Produto:* Botina Softflex Campo Pro\n*Cor:* ' + corLabel + '\n*Número:* ' + f.numero + '\n*Quantidade:* ' + qtdLabel + '\n\n*Cliente:* ' + f.nome + '\n*Telefone:* ' + f.tel + '\n\n*Entrega:*\nCEP: ' + f.cep + '\n' + f.cidade + '\n' + f.endereco + '\nPrazo estimado: ' + freteInfo.prazo + '\n\n*Frete:* ' + freteTexto + '\n*Total:* ' + totalTexto + '\n*Pagamento:* ' + pagLabel + '\n\n_Pedido enviado pelo site softflex.com.br_';
+    window.open('https://wa.me/5534936181135?text=' + encodeURIComponent(msg), '_blank');
+  };
+
+  pagarMercadoPago = async () => {
+    const f = this.collectForm();
+    if (!f.nome || !f.tel || !f.numero || !f.cep || !f.cidade || !f.endereco) {
+      alert('Por favor, preencha todos os campos antes de finalizar o pedido.');
+      return;
+    }
+    if (!f.email) { alert('Por favor, informe seu e-mail para receber o comprovante.'); return; }
+    const btn = document.getElementById('btn-mp');
+    const original = btn.innerHTML;
+    btn.textContent = '⏳ Processando...';
+    btn.disabled = true;
+    const qtdInt = parseInt(f.qtd) || 1;
+    const subtotal = this.precoSubtotal(qtdInt);
+    const cepRaw = f.cep.replace(/\D/g,'');
+    const freteInfo = cepRaw.length === 8 ? this.calcularFrete(cepRaw, qtdInt) : { frete: 0 };
+    const total = subtotal + freteInfo.frete;
+    const corLabel = f.cor === 'castor' ? 'Castor' : 'Café';
+    try {
+      const resp = await fetch('/.netlify/functions/criar-preferencia', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome: f.nome, email: f.email, cor: corLabel, numero: f.numero, qtd: qtdInt, frete: freteInfo.frete, total })
+      });
+      const data = await resp.json();
+      if (data.init_point) { window.location.href = data.init_point; }
+      else { throw new Error(data.error || 'Erro ao criar pagamento'); }
+    } catch(e) {
+      btn.textContent = '⚠️ Redirecionando para WhatsApp...';
+      setTimeout(() => this.enviarPedido(), 1200);
+    } finally {
+      setTimeout(() => { btn.disabled = false; btn.innerHTML = original; }, 3000);
+    }
+  };
+
+  renderVals() {
+    return {
+      sizes: [37,38,39,40,41,42,43,44,45,46],
+      selectColor: this.selectColor,
+      selectSize: this.selectSize,
+      selectPayment: this.selectPayment,
+      onCepInput: this.onCepInput,
+      onTelInput: this.onTelInput,
+      onQtdChange: this.onQtdChange,
+      enviarPedido: this.enviarPedido,
+      enviarPedidoLink: this.enviarPedidoLink,
+      pagarMercadoPago: this.pagarMercadoPago,
+    };
+  }
+}
+</script>
+</body>
+</html>
